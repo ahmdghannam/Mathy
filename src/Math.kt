@@ -1,8 +1,9 @@
 import kotlin.math.abs
 import kotlin.math.min
+import kotlin.math.sqrt
 
 /**
- * this function will return the sum of all valeus between two Int numbers
+ * this function will return the sum of all values between two Int numbers
  * both negative and positive supported
  **/
 fun getSumFromAtoB(A: Int, B: Int): Int {
@@ -14,16 +15,19 @@ fun getSumFromAtoB(A: Int, B: Int): Int {
         getSumFromAToBMixed(A, B)
     }
 }
+
 private fun getSumFromAToBMixed(A: Int, B: Int): Int {
     if ((A > 0 && B > 0) || (A < 0 && B < 0)) throw Exception("The numbers must be Mixed!")
     val negative = if (A < 0) A else B
     val positive = if (A >= 0) A else B
     return getSumFromOneToN(positive) - getSumFromOneToN(-negative)
 }
+
 private fun getSumFromAToBNegative(A: Int, B: Int): Int {
     if (A > 0 || B > 0) throw Exception("The numbers must be Negative!")
     return -getSumFromAToBPositive(-A, -B)
 }
+
 private fun getSumFromAToBPositive(A: Int, B: Int): Int {
     if (A < 0 || B < 0) throw Exception("The numbers must be positive!")
     return min(A, B) + abs((getSumFromOneToN(A) - getSumFromOneToN(B)))
@@ -54,13 +58,14 @@ fun Int.mapRanges(oldStart: Int, oldEnd: Int, newStart: Int, newEnd: Int): Int {
     if (this !in oldStart..oldEnd) return ERROR_CODE
     return (this - oldStart) * (newEnd - newStart) / (oldEnd - oldStart) + newStart
 }
+
 fun Int.mapRanges(old: IntRange, new: IntRange): Int {
     if (this !in old) return ERROR_CODE
     return (this - old.first) * (new.last - new.first) / (old.last - old.first) + new.first
 }
 
 /**
- *   discard a value if it's lower or higher than specific range,
+ *  discard a value if it's lower or higher than specific range,
  *  returns the default value if outside the range
  **/
 fun Int.discardOutside(range: IntRange, defaultValue: Int = 0): Int {
@@ -100,7 +105,7 @@ fun Int.isAround(compareValue: Int, errorRate: Int): Boolean {
  *
  * This extension function computes the specified percentage of the caller integer
  * and returns the result as an integer. If the given percentage is negative,
- * it `@ERROR_CODE` -1 to indicate an invalid input.
+ * it returns `@ERROR_CODE` to indicate an invalid input.
  */
 fun Int.percentOf(percentage: Int): Int {
     if (percentage < 0) return ERROR_CODE
@@ -125,6 +130,61 @@ fun Int.decByPercentage(percentage: Int): Int {
     }
 }
 
+/*
+*  the numbers should be separated by a comma or space and passed as string
+* */
+fun sumNumbersInString(text: String, evenOnly: Boolean = false, oddOnly: Boolean = false): Double {
+    val textSeparatedByCommas = text.trim().replace(" ", ",", true)
+    val numbers = textSeparatedByCommas.split(",")
+        .filter { it != "" && it != " " }
+        .map { it.toDouble() }
+
+    return numbers.sumOf { value ->
+        if (evenOnly && oddOnly){
+          value
+        } else if (evenOnly) {
+            if (value.toInt().isEven()) value else 0.0
+        } else if (oddOnly) {
+            if (value.toInt().isOdd()) value else 0.0
+        } else {
+            value
+        }
+    }
+}
+fun gcd(a: Int, b: Int): Int {
+    var x = a
+    var y = b
+    while (y != 0) {
+        val temp = y
+        y = x % y
+        x = temp
+    }
+    return x
+}
+fun lcm(a: Int, b: Int): Int {
+    return if (a == 0 || b == 0) 0 else (a * b) / gcd(a, b)
+}
+fun gcdList(vararg numbers: Int): Int {
+    return numbers.reduce { a, b -> gcd(a, b) }
+}
+fun lcmList(vararg numbers: Int): Int {
+    return numbers.reduce { a, b -> lcm(a, b) }
+}
+tailrec fun factorial(n: Int, acc: Long = 1): Long {
+    return if (n == 0 || n == 1) acc
+    else factorial(n - 1, acc * n)
+}
+fun isPrime(n: Int): Boolean {
+    if (n <= 1) return false
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
+        if (n % i == 0) return false
+    }
+    return true
+}
+
+
+
+
 /**
 some handy extension compact functions
  **/
@@ -135,6 +195,8 @@ fun Int.isNegativeOrZero() = this <= 0
 fun Int.isPositive() = this > 0
 fun Int.isPositiveOrZero() = this >= 0
 fun Boolean.toInt() = if (this) 1 else 0
+fun Int.isEven() = this % 2 == 0
+fun Int.isOdd() = this % 2 == 1
 fun Int.toBoolean() = this >= 1
 infix fun Double.p(power: Double) = Math.pow(this, power)
 
