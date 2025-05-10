@@ -24,6 +24,10 @@ fun getSumFromOneToN(N: Int): Int {
     return ((N) * (N + 1)) / 2
 }
 
+fun Int.getSumOfSquaresFromOneToN(): Int {
+    return (this * (this + 1) * (2 * this + 1)) / 6
+}
+
 /**
  * returns how much progress as percentage is made between start and end value
  **/
@@ -325,13 +329,9 @@ fun log(x: Int, base: Int): Int {
 fun log2(n: Int): Int {
     return log(n, 2)
 }
-
-fun Int.isPowerOfTwo(): Boolean {
-    return this > 0 && (this and (this - 1)) == 0
-}
-fun Int.getSumOfSquaresFromOneToN(): Int {
-    return (this * (this + 1) * (2 * this + 1)) / 6
-}
+/**
+ *  Returns the number after flipping the digits
+ **/
 fun Int.reverseDigits(): Int {
     var num = this
     var reversed = 0
@@ -342,14 +342,17 @@ fun Int.reverseDigits(): Int {
     }
     return reversed
 }
+/**
+ *  Checks if the number has a fixed (int) square root
+ **/
 fun Int.isPerfectSquare(): Boolean {
     val sqrt = sqrt(this.toDouble()).toInt()
     return sqrt * sqrt == this
 }
-fun haveOppositeSigns(a: Int, b: Int) = (a xor b) < 0
-fun Int.isDivisibleBy(num: Int) = this % num == 0
 
-// areas
+/**
+ * These functions will calculate the Areas of different shapes
+ **/
 fun rectangleArea(width: Double, height: Double) = width * height
 fun squareArea(side: Double) = side * side
 fun circleArea(radius: Double) = Math.PI * radius * radius
@@ -358,14 +361,18 @@ fun ellipseArea(a: Double, b: Double) = Math.PI * a * b
 fun trapezoidArea(height: Double, base1: Double, base2: Double) = height * (base1 + base2) / 2
 fun parallelogramArea(height: Double, base: Double) = height * base
 
-// Perimeters
+/**
+ * These functions will calculate the Perimeters of different shapes
+ **/
 fun circlePerimeter(radius: Double) = 2 * Math.PI * radius
 fun trianglePerimeter(a: Double, b: Double, c: Double) = a + b + c
 fun rectanglePerimeter(width: Double, height: Double) = 2 * (width + height)
 fun squarePerimeter(side: Double) = 4 * side
 fun trapezoidPerimeter(a: Double, b: Double, c: Double, d: Double) = a + b + c + d
 
-// volumes
+/**
+ * These functions will calculate the Volumes of different shapes
+ **/
 fun cubeVolume(edge: Double) = edge * edge * edge
 fun cuboidVolume(length: Double, width: Double, height: Double) = length * width * height
 fun coneVolume(radius: Double, height: Double) = (1 / 3) * Math.PI * radius * radius * height
@@ -393,12 +400,16 @@ fun pythagorasRule(hypotenuse: Double? = null, a: Double? = null, b: Double? = n
 some handy extension compact functions
  **/
 fun Int.noNegative() = if (this < 0) 0 else this
+fun Int.isDivisibleBy(num: Int) = this % num == 0
+fun Int.isPowerOfTwo() = this > 0 && (this and (this - 1)) == 0
+fun haveOppositeSigns(a: Int, b: Int) = (a xor b) < 0
 fun Int.noPositive() = if (this > 0) 0 else this
 fun Boolean.toInt() = if (this) 1 else 0
 fun Int.toBoolean() = this >= 1
 fun Int.isEven() = this % 2 == 0
 fun Int.isOdd() = this % 2 == 1
 infix fun Double.p(power: Double) = Math.pow(this, power)
+
 const val ERROR_CODE = -1
 
 
