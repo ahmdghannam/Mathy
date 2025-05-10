@@ -329,6 +329,7 @@ fun log(x: Int, base: Int): Int {
 fun log2(n: Int): Int {
     return log(n, 2)
 }
+
 /**
  *  Returns the number after flipping the digits
  **/
@@ -342,6 +343,7 @@ fun Int.reverseDigits(): Int {
     }
     return reversed
 }
+
 /**
  *  Checks if the number has a fixed (int) square root
  **/
@@ -380,7 +382,6 @@ fun cylinderVolume(radius: Double, height: Double) = Math.PI * radius * radius *
 fun sphereVolume(radius: Double) = (4 / 3) * Math.PI * radius * radius * radius
 fun pyramidVolume(baseSide: Double, height: Double) = (1 / 3) * baseSide * baseSide * height
 
-
 /**
  * This function calculates the missing side of the triangle based on the Pythagoras Rule
  * You should pass all the args values except the one wanted to be calculated.
@@ -394,6 +395,16 @@ fun pythagorasRule(hypotenuse: Double? = null, a: Double? = null, b: Double? = n
         else -> null
     }
 }
+
+/**
+ * Temperatures conversion
+ **/
+fun Double.celsiusToFahrenheit() = (this * (9.0 / 5)) + 32
+fun Double.fahrenheitToCelsius() = (this - 32) * (5.0 / 9)
+fun Double.celsiusToKelvin() = this + 273.15
+fun Double.kelvinToCelsius() = this - 273.15
+fun Double.fahrenheitToKelvin() = fahrenheitToCelsius().celsiusToKelvin()
+fun Double.kelvinToFahrenheit() = kelvinToCelsius().celsiusToFahrenheit()
 
 
 /**
