@@ -17,23 +17,6 @@ fun getSumFromAtoB(A: Int, B: Int): Int {
     }
 }
 
-private fun getSumFromAToBMixed(A: Int, B: Int): Int {
-    if ((A > 0 && B > 0) || (A < 0 && B < 0)) throw Exception("The numbers must be Mixed!")
-    val negative = if (A < 0) A else B
-    val positive = if (A >= 0) A else B
-    return getSumFromOneToN(positive) - getSumFromOneToN(-negative)
-}
-
-private fun getSumFromAToBNegative(A: Int, B: Int): Int {
-    if (A > 0 || B > 0) throw Exception("The numbers must be Negative!")
-    return -getSumFromAToBPositive(-A, -B)
-}
-
-private fun getSumFromAToBPositive(A: Int, B: Int): Int {
-    if (A < 0 || B < 0) throw Exception("The numbers must be positive!")
-    return min(A, B) + abs((getSumFromOneToN(A) - getSumFromOneToN(B)))
-}
-
 /**
  * this function will return the sum of all numbers from 1 to N
  **/
@@ -148,12 +131,6 @@ fun sumNumbersInString(text: String, evenOnly: Boolean = false, oddOnly: Boolean
     }
 }
 
-private fun convertTextItemsToArray(text: String): List<String> {
-    return text.trim()
-        .replace(" ", ",", true)
-        .split(",")
-        .filter { it != "" && it != " " }
-}
 
 /**
  * finds the greatest common divisor of two numbers
@@ -266,13 +243,7 @@ fun Int.spreadDigits(): List<Int> {
 fun IntArray.getCyclicIndex(index: Int): Int = getCyclicIndex(index, size)
 fun <T> Collection<T>.getCyclicIndex(index: Int): Int = getCyclicIndex(index, size)
 fun <T> Array<T>.getCyclicIndex(index: Int): Int = getCyclicIndex(index, size)
-private fun getCyclicIndex(index: Int, size: Int): Int {
-    return if (index < 0) {
-        size + index
-    } else {
-        index % size
-    }
-}
+
 
 /**
  * will count the number of ones and zeros in the binary representation
@@ -337,7 +308,7 @@ fun calculateSlope(point1: IntArray, point2: IntArray): Double? {
 /**
  * calculates the distance between two numbers in 2D
  **/
-private fun euclideanDistance(x: Int, y: Int, queryX: Int, queryY: Int): Int {
+fun euclideanDistance(x: Int, y: Int, queryX: Int, queryY: Int): Int {
     return (x - queryX) * (x - queryX) + (y - queryY) * (y - queryY)
 }
 
@@ -378,6 +349,45 @@ fun Int.isPerfectSquare(): Boolean {
 fun haveOppositeSigns(a: Int, b: Int) = (a xor b) < 0
 fun Int.isDivisibleBy(num: Int) = this % num == 0
 
+// areas
+fun rectangleArea(width: Double, height: Double) = width * height
+fun squareArea(side: Double) = side * side
+fun circleArea(radius: Double) = Math.PI * radius * radius
+fun triangleArea(base: Double, height: Double) = 0.5 * base * height
+fun ellipseArea(a: Double, b: Double) = Math.PI * a * b
+fun trapezoidArea(height: Double, base1: Double, base2: Double) = height * (base1 + base2) / 2
+fun parallelogramArea(height: Double, base: Double) = height * base
+
+// Perimeters
+fun circlePerimeter(radius: Double) = 2 * Math.PI * radius
+fun trianglePerimeter(a: Double, b: Double, c: Double) = a + b + c
+fun rectanglePerimeter(width: Double, height: Double) = 2 * (width + height)
+fun squarePerimeter(side: Double) = 4 * side
+fun trapezoidPerimeter(a: Double, b: Double, c: Double, d: Double) = a + b + c + d
+
+// volumes
+fun cubeVolume(edge: Double) = edge * edge * edge
+fun cuboidVolume(length: Double, width: Double, height: Double) = length * width * height
+fun coneVolume(radius: Double, height: Double) = (1 / 3) * Math.PI * radius * radius * height
+fun cylinderVolume(radius: Double, height: Double) = Math.PI * radius * radius * height
+fun sphereVolume(radius: Double) = (4 / 3) * Math.PI * radius * radius * radius
+fun pyramidVolume(baseSide: Double, height: Double) = (1 / 3) * baseSide * baseSide * height
+
+
+/**
+ * This function calculates the missing side of the triangle based on the Pythagoras Rule
+ * You should pass all the args values except the one wanted to be calculated.
+ **/
+fun pythagorasRule(hypotenuse: Double? = null, a: Double? = null, b: Double? = null): Double? {
+    if (!twoValuesPresent(hypotenuse, a, b)) throw Exception("You should pass exactly two values")
+    return when {
+        (hypotenuse == null) -> sqrt((a!! * a) + (b!! * b))
+        (a == null) -> sqrt((hypotenuse * hypotenuse) - (b!! * b))
+        (b == null) -> sqrt((hypotenuse * hypotenuse) - (a * a))
+        else -> null
+    }
+}
+
 
 /**
 some handy extension compact functions
@@ -389,6 +399,42 @@ fun Int.toBoolean() = this >= 1
 fun Int.isEven() = this % 2 == 0
 fun Int.isOdd() = this % 2 == 1
 infix fun Double.p(power: Double) = Math.pow(this, power)
-
 const val ERROR_CODE = -1
 
+
+// private utils
+private fun twoValuesPresent(hypotenuse: Double?, a: Double?, b: Double?): Boolean {
+    return listOf(hypotenuse, a, b).count { it == null } == 1
+}
+
+private fun getCyclicIndex(index: Int, size: Int): Int {
+    return if (index < 0) {
+        size + index
+    } else {
+        index % size
+    }
+}
+
+private fun convertTextItemsToArray(text: String): List<String> {
+    return text.trim()
+        .replace(" ", ",", true)
+        .split(",")
+        .filter { it != "" && it != " " }
+}
+
+private fun getSumFromAToBMixed(A: Int, B: Int): Int {
+    if ((A > 0 && B > 0) || (A < 0 && B < 0)) throw Exception("The numbers must be Mixed!")
+    val negative = if (A < 0) A else B
+    val positive = if (A >= 0) A else B
+    return getSumFromOneToN(positive) - getSumFromOneToN(-negative)
+}
+
+private fun getSumFromAToBNegative(A: Int, B: Int): Int {
+    if (A > 0 || B > 0) throw Exception("The numbers must be Negative!")
+    return -getSumFromAToBPositive(-A, -B)
+}
+
+private fun getSumFromAToBPositive(A: Int, B: Int): Int {
+    if (A < 0 || B < 0) throw Exception("The numbers must be positive!")
+    return min(A, B) + abs((getSumFromOneToN(A) - getSumFromOneToN(B)))
+}
