@@ -16,16 +16,19 @@ fun getSumFromAtoB(A: Int, B: Int): Int {
         getSumFromAToBMixed(A, B)
     }
 }
+
 private fun getSumFromAToBMixed(A: Int, B: Int): Int {
     if ((A > 0 && B > 0) || (A < 0 && B < 0)) throw Exception("The numbers must be Mixed!")
     val negative = if (A < 0) A else B
     val positive = if (A >= 0) A else B
     return getSumFromOneToN(positive) - getSumFromOneToN(-negative)
 }
+
 private fun getSumFromAToBNegative(A: Int, B: Int): Int {
     if (A > 0 || B > 0) throw Exception("The numbers must be Negative!")
     return -getSumFromAToBPositive(-A, -B)
 }
+
 private fun getSumFromAToBPositive(A: Int, B: Int): Int {
     if (A < 0 || B < 0) throw Exception("The numbers must be positive!")
     return min(A, B) + abs((getSumFromOneToN(A) - getSumFromOneToN(B)))
@@ -42,7 +45,7 @@ fun getSumFromOneToN(N: Int): Int {
  * returns how much progress as percentage is made between start and end value
  **/
 fun Int.percentageBetween(range: IntRange): Float {
-    if (this.isNegative() or range.first.isNegative() or range.last.isNegative()) return ERROR_CODE.toFloat()
+    if (this < 0 || range.first < 0 || range.last < 0) return ERROR_CODE.toFloat()
     val difference = abs(range.first - range.last)
     return (this - range.first) / difference.toFloat()
 }
@@ -56,6 +59,7 @@ fun Int.mapRanges(oldStart: Int, oldEnd: Int, newStart: Int, newEnd: Int): Int {
     if (this !in oldStart..oldEnd) return ERROR_CODE
     return (this - oldStart) * (newEnd - newStart) / (oldEnd - oldStart) + newStart
 }
+
 fun Int.mapRanges(old: IntRange, new: IntRange): Int {
     if (this !in old) return ERROR_CODE
     return (this - old.first) * (new.last - new.first) / (old.last - old.first) + new.first
@@ -81,6 +85,7 @@ fun Number.forceInRange(start: Number, end: Number): Number {
         else -> this
     }
 }
+
 fun Long.forceInRange(range: LongRange): Long {
     return when {
         this < range.first -> range.first
@@ -142,6 +147,7 @@ fun sumNumbersInString(text: String, evenOnly: Boolean = false, oddOnly: Boolean
         }
     }
 }
+
 private fun convertTextItemsToArray(text: String): List<String> {
     return text.trim()
         .replace(" ", ",", true)
@@ -227,6 +233,7 @@ fun IntArray.maxExceptIndex(index: Int): Int {
     }
     return max
 }
+
 fun IntArray.minExceptIndex(index: Int): Int {
     var min = Int.MAX_VALUE
     for (i in indices) {
@@ -340,6 +347,7 @@ private fun euclideanDistance(x: Int, y: Int, queryX: Int, queryY: Int): Int {
 fun log(x: Int, base: Int): Int {
     return (ln(x.toDouble()) / ln(base.toDouble())).toInt()
 }
+
 /**
  * calculates the log of base 2
  **/
@@ -347,20 +355,39 @@ fun log2(n: Int): Int {
     return log(n, 2)
 }
 
+fun Int.isPowerOfTwo(): Boolean {
+    return this > 0 && (this and (this - 1)) == 0
+}
+fun Int.getSumOfSquaresFromOneToN(): Int {
+    return (this * (this + 1) * (2 * this + 1)) / 6
+}
+fun Int.reverseDigits(): Int {
+    var num = this
+    var reversed = 0
+    while (num != 0) {
+        val digit = num % 10
+        reversed = reversed * 10 + digit
+        num /= 10
+    }
+    return reversed
+}
+fun Int.isPerfectSquare(): Boolean {
+    val sqrt = sqrt(this.toDouble()).toInt()
+    return sqrt * sqrt == this
+}
+fun haveOppositeSigns(a: Int, b: Int) = (a xor b) < 0
+fun Int.isDivisibleBy(num: Int) = this % num == 0
+
 
 /**
 some handy extension compact functions
  **/
 fun Int.noNegative() = if (this < 0) 0 else this
 fun Int.noPositive() = if (this > 0) 0 else this
-fun Int.isNegative() = this < 0
-fun Int.isNegativeOrZero() = this <= 0
-fun Int.isPositive() = this > 0
-fun Int.isPositiveOrZero() = this >= 0
 fun Boolean.toInt() = if (this) 1 else 0
+fun Int.toBoolean() = this >= 1
 fun Int.isEven() = this % 2 == 0
 fun Int.isOdd() = this % 2 == 1
-fun Int.toBoolean() = abs(this) >= 1
 infix fun Double.p(power: Double) = Math.pow(this, power)
 
 const val ERROR_CODE = -1
