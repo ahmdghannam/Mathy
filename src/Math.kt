@@ -406,14 +406,57 @@ fun Double.kelvinToCelsius() = this - 273.15
 fun Double.fahrenheitToKelvin() = fahrenheitToCelsius().celsiusToKelvin()
 fun Double.kelvinToFahrenheit() = kelvinToCelsius().celsiusToFahrenheit()
 
+/**
+ * length conversion
+ **/
+fun Double.inchesToCentimeters() = this * 2.54
+fun Double.centimetersToInchesTo() = this / 2.54
+fun Double.feetToMeters() = this / 3.281
+fun Double.metersToFeet() = this * 3.281
+fun Double.milesToKilometers() = this * 1.60934
+fun Double.kilometersToMiles() = this / 1.60934
+
+/**
+ * Weight and Mass Conversions
+ **/
+fun Double.kilogramsToPounds() = this * 2.20462
+fun Double.poundsToKilograms() = this / 2.20462
+fun Double.gramsToOunces() = this / 28.3495
+fun Double.ouncesToGramsTo() = this * 28.3495
+
+/**
+ * Time Conversions
+ **/
+fun Double.minutesToSeconds() = this * 60
+fun Double.secondsToMinutes() = this / 60
+fun Double.hoursToMinutes() = this * 60
+fun Double.minutesToHoursTo() = this / 60
+fun Double.daysToHours() = this * 24
+fun Double.hoursToDays() = this / 24
+
+/**
+ * Speed Conversions
+ **/
+fun Double.kMphToMph() = this / 1.60934
+fun Double.mphTokMph() = this * 1.60934
+
+/**
+ * Energy Conversions
+ **/
+fun Double.joulesToCalories() = this / 4.184
+fun Double.joulesToKiloCalories() = this / 4184
+fun Double.caloriesToJoules() = this * 4.184
+fun Double.kiloCaloriesToJoules() = this * 4184
+fun Double.kWhToJoules() = this * 3_600_000
+fun Double.joulesToKWh() = this / 3_600_000
 
 /**
 some handy extension compact functions
  **/
-fun Int.noNegative() = if (this < 0) 0 else this
 fun Int.isDivisibleBy(num: Int) = this % num == 0
 fun Int.isPowerOfTwo() = this > 0 && (this and (this - 1)) == 0
 fun haveOppositeSigns(a: Int, b: Int) = (a xor b) < 0
+fun Int.noNegative() = if (this < 0) 0 else this
 fun Int.noPositive() = if (this > 0) 0 else this
 fun Boolean.toInt() = if (this) 1 else 0
 fun Int.toBoolean() = this >= 1
