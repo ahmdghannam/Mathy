@@ -18,7 +18,7 @@ bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
-src/Main.kt
+src/Test.kt
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
