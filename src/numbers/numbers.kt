@@ -44,10 +44,12 @@ fun Int.spreadDigits(): List<Int> {
 /**
  * Checks if the number is prime, i.e., divisible only by 1 and itself.
  **/
-fun isPrime(n: Int): Boolean {
-    if (n <= 1) return false
-    for (i in 2..sqrt(n.toDouble()).toInt()) {
-        if (n % i == 0) return false
+fun Int.isPrime(): Boolean {
+    if (this <= 1) return false
+    if (this == 2) return true
+    if (this % 2 == 0) return false
+    for (i in 2..sqrt(this.toDouble()).toInt()) {
+        if (this % i == 0) return false
     }
     return true
 }

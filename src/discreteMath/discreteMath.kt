@@ -1,4 +1,4 @@
-package discreteMath.kt
+package discreteMath
 
 import numbers.factorial
 
