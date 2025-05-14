@@ -1,5 +1,6 @@
 package numbers
 
+import equations.solveQuadraticEquation
 import handyFunctions.isEven
 import handyFunctions.isOdd
 import kotlin.math.min
@@ -22,11 +23,24 @@ fun getSumFromAtoB(A: Int, B: Int): Int {
  * this function will return the sum of all numbers from 1 to N
  **/
 fun getSumFromOneToN(N: Int)= N * (N + 1) / 2
-
 fun Int.getSumOfSquaresFromOneToN(): Int {
     return (this * (this + 1) * (2 * this + 1)) / 6
 }
 
+/**
+ * Calculates the value of N such that the sum of integers from 1 to N equals the given sum.
+ *
+ * This function solves the inverse of the triangular number formula:
+ *      sum = N * (N + 1) / 2
+ * by using the quadratic formula to find N given the sum.
+ *
+ * @param sum The total sum from 1 to N (as a Double).
+ * @return The value of N (as a Double), which may be fractional if the sum doesn't
+ *         correspond to a perfect triangular number.
+ */
+fun getUpperBoundNForSum(sum: Double): Double {
+    return solveQuadraticEquation(1.0, 1.0, -2 * sum).first
+}
 
 /**
  *  the numbers should be separated by a comma or space and passed as string
